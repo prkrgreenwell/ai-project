@@ -1,0 +1,53 @@
+  /* ---------- Lesson interface (v2: chat layout) ---------- */
+  .lesson { display:flex; --l-left:#e8e6e3; --l-line:#2b2b2b; --l-ink:#1d1d1d; --l-sub:#555; --out-bg:#eef4fb; --bubble:#ffffff; --user:#cc0000; flex-direction: column; height: 100vh; height: 100dvh; background: var(--bg); }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .lesson { display:flex; --l-left:#2a2a2a; --l-line:#555; --l-ink:#f2f2f2; --l-sub:#bdbdbd; --out-bg:#18222e; --bubble:#263444; } }
+  :root[data-theme="dark"] .lesson { display:flex; --l-left:#2a2a2a; --l-line:#555; --l-ink:#f2f2f2; --l-sub:#bdbdbd; --out-bg:#18222e; --bubble:#263444; }
+  .topbar { display:flex; align-items:center; gap:16px; padding:10px 20px; border-bottom:4px solid var(--red); background:var(--card); flex:none; }
+  .topbar a { color: var(--red); font-weight:600; text-decoration:none; }
+  .topbar a:hover { text-decoration: underline; }
+  .topbar .crumb { color: var(--muted); font-size:.95rem; flex:1; }
+  .prog { display:flex; align-items:center; gap:10px; font-size:.9rem; color: var(--muted); }
+  .meter { width:110px; height:8px; background: var(--border); border-radius:6px; overflow:hidden; }
+  .meter span { display:block; height:100%; width:0; background:#1a7f37; transition: width .4s; }
+  .panes { flex:1; display:grid; grid-template-columns: 1fr 1.1fr; gap:10px; padding:10px; min-height:0; }
+  .lessonpane { background: var(--l-left); color: var(--l-ink); border:2px solid var(--l-line); padding:26px; overflow:auto; }
+  .lessonpane h2 { font-size:1.4rem; margin:6px 0 10px; }
+  .lessonpane h3 { font-size:.8rem; letter-spacing:.12em; text-transform:uppercase; margin:22px 0 8px; color: var(--l-sub); }
+  .lessonpane ul { padding-left:20px; margin:6px 0; }
+  .tag { font-size:.8rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color: var(--red); }
+  .task { background: rgba(204,0,0,.08); border-left:4px solid var(--red); padding:12px 14px; border-radius:4px; margin:12px 0; }
+  .hint { display:none; font-size:.95rem; background: var(--card); color: var(--text); border:1px dashed var(--l-line); padding:12px; border-radius:6px; margin-top:10px; }
+  .hint.show { display:block; }
+  .btn { font:inherit; font-weight:600; border:2px solid var(--red); background: var(--red); color:#fff; padding:9px 16px; border-radius:6px; cursor:pointer; }
+  .btn:hover:not(:disabled) { background: var(--red-dark); border-color: var(--red-dark); }
+  .btn.ghost { background: transparent; color: var(--l-ink); border-color: var(--l-line); }
+  .btn:disabled { opacity:.45; cursor:not-allowed; }
+  .btn:focus-visible { outline:3px solid var(--red); outline-offset:2px; }
+  .chatpane { display:flex; flex-direction:column; min-height:0; border:2px solid var(--l-line); background: var(--out-bg); color: var(--text); }
+  .chathead { padding:12px 18px; font-weight:600; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:10px; flex:none; }
+  .chathead small { font-weight:400; color: var(--muted); }
+  .chat { flex:1; overflow:auto; padding:18px; display:flex; flex-direction:column; gap:16px; }
+  .msg { display:flex; gap:10px; max-width:92%; }
+  .msg.user { align-self:flex-end; }
+  .avatar { flex:none; width:30px; height:30px; border-radius:50%; background: var(--red); color:#fff; display:flex; align-items:center; justify-content:center; font-size:.8rem; font-weight:700; }
+  .bubble { background: var(--bubble); border:1px solid var(--border); border-radius:14px; padding:10px 14px; font-size:.97rem; line-height:1.55; }
+  .msg.user .bubble { background: var(--user); color:#fff; border-color: var(--user); border-bottom-right-radius:4px; white-space:pre-wrap; }
+  .msg.ai .bubble { border-top-left-radius:4px; }
+  .bubble p { margin:0 0 8px; } .bubble p:last-child { margin:0; }
+  .typing span { display:inline-block; width:7px; height:7px; margin-right:4px; border-radius:50%; background: var(--muted); animation: blink 1s infinite; }
+  .typing span:nth-child(2) { animation-delay:.2s; } .typing span:nth-child(3) { animation-delay:.4s; }
+  @keyframes blink { 0%,80%,100% { opacity:.25; } 40% { opacity:1; } }
+  .fb { margin-top:10px; border-top:1px solid var(--border); padding-top:10px; font-size:.9rem; }
+  .fb strong { display:block; margin-bottom:4px; font-size:.78rem; letter-spacing:.1em; text-transform:uppercase; color: var(--muted); }
+  .fb div { display:flex; gap:8px; padding:2px 0; }
+  .fb .ok { color:#1a7f37; } .fb .miss { color:#b26a00; }
+  .composer { flex:none; padding:12px 14px 14px; border-top:1px solid var(--border); }
+  .box { display:flex; align-items:flex-end; gap:8px; background: var(--card); border:2px solid var(--l-line); border-radius:16px; padding:8px 8px 8px 14px; }
+  .box:focus-within { border-color: var(--red); }
+  .box textarea { flex:1; border:0; outline:0; resize:none; background:transparent; color: var(--text); font:inherit; font-size:1rem; max-height:110px; padding:6px 0; }
+  .send { flex:none; width:38px; height:38px; border-radius:50%; border:0; background: var(--red); color:#fff; cursor:pointer; display:flex; align-items:center; justify-content:center; }
+  .send:hover:not(:disabled) { background: var(--red-dark); } .send:disabled { opacity:.4; cursor:not-allowed; }
+  .send svg { width:18px; height:18px; fill:none; stroke:currentColor; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round; }
+  .note { font-size:.78rem; color: var(--muted); text-align:center; margin-top:8px; }
+  @media (max-width: 900px) { .lesson { height:auto; min-height:100dvh; } .panes { grid-template-columns: 1fr; } .chatpane { min-height:70vh; } .prog .meter { display:none; } }
+  @media (prefers-reduced-motion: reduce) { .typing span { animation:none; } }
