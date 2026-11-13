@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Responsible AI Use Modules</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700&family=Source+Serif+4:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red: #cc0000;
+    --red-dark: #a30000;
+    --bg: #ffffff;
+    --surface: #f4f2f0;
+    --card: #ffffff;
+    --text: #1d1d1d;
+    --muted: #5b5b5b;
+    --border: #e3dfdb;
+    --shadow: 0 2px 10px rgba(0,0,0,.08);
+    --shadow-hover: 0 8px 22px rgba(0,0,0,.14);
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #141414; --surface: #1d1d1d; --card: #262626;
+      --text: #f2f2f2; --muted: #b5b5b5; --border: #3a3a3a;
+      --shadow: 0 2px 10px rgba(0,0,0,.4); --shadow-hover: 0 8px 22px rgba(0,0,0,.55);
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #141414; --surface: #1d1d1d; --card: #262626;
+    --text: #f2f2f2; --muted: #b5b5b5; --border: #3a3a3a;
+    --shadow: 0 2px 10px rgba(0,0,0,.4); --shadow-hover: 0 8px 22px rgba(0,0,0,.55);
+    color-scheme: dark;
+  }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font-family: "Source Sans 3", "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.6; -webkit-font-smoothing: antialiased;
+  }
+  .intro {
+    max-width: 860px; margin: 0 auto; padding: 72px 24px 48px; text-align: center;
+  }
+  .eyebrow {
+    display: inline-block; font-size: .85rem; font-weight: 700; letter-spacing: .14em;
+    text-transform: uppercase; color: var(--red); margin-bottom: 14px;
+  }
+  h1 {
+    font-family: "Source Serif 4", Georgia, serif; font-weight: 700;
+    font-size: clamp(2rem, 5vw, 3.1rem); line-height: 1.15; margin: 0 0 20px;
+  }
+  .intro p { font-size: 1.15rem; color: var(--muted); margin: 0 auto; max-width: 680px; }
+  .rule { width: 64px; height: 4px; background: var(--red); border-radius: 2px; margin: 28px auto 0; }
+
+  .modules { background: var(--surface); padding: 64px 24px 88px; }
+  .modules-inner { max-width: 1100px; margin: 0 auto; }
+  .section-head { text-align: center; margin-bottom: 40px; }
+  .section-head .eyebrow { margin-bottom: 8px; }
+  h2 {
+    font-family: "Source Serif 4", Georgia, serif; font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+    margin: 0 0 12px;
+  }
+  .section-head p { color: var(--muted); max-width: 640px; margin: 0 auto; font-size: 1.05rem; }
+
+  .grid {
+    display: grid; gap: 24px;
+    grid-template-columns: repeat(3, 1fr);
+  }
+  @media (max-width: 900px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .grid { grid-template-columns: 1fr; } }
+
+  .card {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 18px; min-height: 190px; padding: 32px 20px; text-align: center;
+    background: var(--card); color: var(--text); text-decoration: none;
+    border: 1px solid var(--border); border-bottom: 4px solid var(--red);
+    border-radius: 8px; box-shadow: var(--shadow);
+    transition: transform .2s ease, box-shadow .2s ease;
+  }
+  .card:hover, .card:focus-visible { transform: translateY(-4px); box-shadow: var(--shadow-hover); }
+  .card:focus-visible { outline: 3px solid var(--red); outline-offset: 3px; }
+  .icon {
+    width: 64px; height: 64px; border-radius: 50%; background: var(--red); color: #fff;
+    display: flex; align-items: center; justify-content: center; transition: background .2s;
+  }
+  .card:hover .icon { background: var(--red-dark); }
+  .icon svg { width: 30px; height: 30px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .card h3 { margin: 0; font-size: 1.2rem; font-weight: 600; line-height: 1.3; }
+  @media (prefers-reduced-motion: reduce) { .card, .icon { transition: none; } .card:hover { transform: none; } }
+  /* ---------- Lesson interface (v2: chat layout) ---------- */
+  #lesson { display: none; }
+  body.in-lesson #home { display: none; }
+  body.in-lesson #lesson { display: flex; }
+  #lesson { --l-left:#e8e6e3; --l-line:#2b2b2b; --l-ink:#1d1d1d; --l-sub:#555; --out-bg:#eef4fb; --bubble:#ffffff; --user:#cc0000; flex-direction: column; height: 100vh; height: 100dvh; background: var(--bg); }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) #lesson { --l-left:#2a2a2a; --l-line:#555; --l-ink:#f2f2f2; --l-sub:#bdbdbd; --out-bg:#18222e; --bubble:#263444; } }
+  :root[data-theme="dark"] #lesson { --l-left:#2a2a2a; --l-line:#555; --l-ink:#f2f2f2; --l-sub:#bdbdbd; --out-bg:#18222e; --bubble:#263444; }
+  .topbar { display:flex; align-items:center; gap:16px; padding:10px 20px; border-bottom:4px solid var(--red); background:var(--card); flex:none; }
+  .topbar a { color: var(--red); font-weight:600; text-decoration:none; }
+  .topbar a:hover { text-decoration: underline; }
+  .topbar .crumb { color: var(--muted); font-size:.95rem; flex:1; }
+  .prog { display:flex; align-items:center; gap:10px; font-size:.9rem; color: var(--muted); }
+  .meter { width:110px; height:8px; background: var(--border); border-radius:6px; overflow:hidden; }
+  .meter span { display:block; height:100%; width:0; background:#1a7f37; transition: width .4s; }
+  .panes { flex:1; display:grid; grid-template-columns: 1fr 1.1fr; gap:10px; padding:10px; min-height:0; }
+  .lessonpane { background: var(--l-left); color: var(--l-ink); border:2px solid var(--l-line); padding:26px; overflow:auto; }
+  .lessonpane h2 { font-size:1.4rem; margin:6px 0 10px; }
+  .lessonpane h3 { font-size:.8rem; letter-spacing:.12em; text-transform:uppercase; margin:22px 0 8px; color: var(--l-sub); }
+  .lessonpane ul { padding-left:20px; margin:6px 0; }
+  .tag { font-size:.8rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color: var(--red); }
+  .task { background: rgba(204,0,0,.08); border-left:4px solid var(--red); padding:12px 14px; border-radius:4px; margin:12px 0; }
+  .hint { display:none; font-size:.95rem; background: var(--card); color: var(--text); border:1px dashed var(--l-line); padding:12px; border-radius:6px; margin-top:10px; }
+  .hint.show { display:block; }
+  .btn { font:inherit; font-weight:600; border:2px solid var(--red); background: var(--red); color:#fff; padding:9px 16px; border-radius:6px; cursor:pointer; }
+  .btn:hover:not(:disabled) { background: var(--red-dark); border-color: var(--red-dark); }
+  .btn.ghost { background: transparent; color: var(--l-ink); border-color: var(--l-line); }
+  .btn:disabled { opacity:.45; cursor:not-allowed; }
+  .btn:focus-visible { outline:3px solid var(--red); outline-offset:2px; }
+  .chatpane { display:flex; flex-direction:column; min-height:0; border:2px solid var(--l-line); background: var(--out-bg); color: var(--text); }
+  .chathead { padding:12px 18px; font-weight:600; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:10px; flex:none; }
+  .chathead small { font-weight:400; color: var(--muted); }
+  .chat { flex:1; overflow:auto; padding:18px; display:flex; flex-direction:column; gap:16px; }
+  .msg { display:flex; gap:10px; max-width:92%; }
+  .msg.user { align-self:flex-end; }
+  .avatar { flex:none; width:30px; height:30px; border-radius:50%; background: var(--red); color:#fff; display:flex; align-items:center; justify-content:center; font-size:.8rem; font-weight:700; }
+  .bubble { background: var(--bubble); border:1px solid var(--border); border-radius:14px; padding:10px 14px; font-size:.97rem; line-height:1.55; }
+  .msg.user .bubble { background: var(--user); color:#fff; border-color: var(--user); border-bottom-right-radius:4px; white-space:pre-wrap; }
+  .msg.ai .bubble { border-top-left-radius:4px; }
+  .bubble p { margin:0 0 8px; } .bubble p:last-child { margin:0; }
+  .typing span { display:inline-block; width:7px; height:7px; margin-right:4px; border-radius:50%; background: var(--muted); animation: blink 1s infinite; }
+  .typing span:nth-child(2) { animation-delay:.2s; } .typing span:nth-child(3) { animation-delay:.4s; }
+  @keyframes blink { 0%,80%,100% { opacity:.25; } 40% { opacity:1; } }
+  .fb { margin-top:10px; border-top:1px solid var(--border); padding-top:10px; font-size:.9rem; }
+  .fb strong { display:block; margin-bottom:4px; font-size:.78rem; letter-spacing:.1em; text-transform:uppercase; color: var(--muted); }
+  .fb div { display:flex; gap:8px; padding:2px 0; }
+  .fb .ok { color:#1a7f37; } .fb .miss { color:#b26a00; }
+  .composer { flex:none; padding:12px 14px 14px; border-top:1px solid var(--border); }
+  .box { display:flex; align-items:flex-end; gap:8px; background: var(--card); border:2px solid var(--l-line); border-radius:16px; padding:8px 8px 8px 14px; }
+  .box:focus-within { border-color: var(--red); }
+  .box textarea { flex:1; border:0; outline:0; resize:none; background:transparent; color: var(--text); font:inherit; font-size:1rem; max-height:110px; padding:6px 0; }
+  .send { flex:none; width:38px; height:38px; border-radius:50%; border:0; background: var(--red); color:#fff; cursor:pointer; display:flex; align-items:center; justify-content:center; }
+  .send:hover:not(:disabled) { background: var(--red-dark); } .send:disabled { opacity:.4; cursor:not-allowed; }
+  .send svg { width:18px; height:18px; fill:none; stroke:currentColor; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round; }
+  .note { font-size:.78rem; color: var(--muted); text-align:center; margin-top:8px; }
+  @media (max-width: 900px) { #lesson { height:auto; min-height:100dvh; } .panes { grid-template-columns: 1fr; } .chatpane { min-height:70vh; } .prog .meter { display:none; } }
+  @media (prefers-reduced-motion: reduce) { .typing span { animation:none; } }
+</style>
+</head>
+<body>
+<div id="home">
+  <header class="intro">
+    <span class="eyebrow">Responsible AI Use</span>
+    <h1>Learn to Use AI Responsibly</h1>
+    <p>Six short modules to help you understand what AI can and can’t do, and how to use it in ways that strengthen your learning instead of shortcutting it.</p>
+    <div class="rule"></div>
+  </header>
+
+  <main class="modules">
+    <div class="modules-inner">
+      <div class="section-head">
+        <span class="eyebrow">Learn &amp; Explore</span>
+        <h2>Choose a Module</h2>
+        <p>Start anywhere. Each module stands on its own.</p>
+      </div>
+
+      <div class="grid">
+        <a class="card" href="#limits-of-ai">
+          <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M5.6 5.6l12.8 12.8"/></svg></span>
+          <h3>Limits of AI</h3>
+        </a>
+        <a class="card" href="#social-impacts-of-ai">
+          <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17" cy="9" r="2.5"/><path d="M17 14.2c2.4.3 4 2.3 4 4.8"/></svg></span>
+          <h3>Social Impacts of AI</h3>
+        </a>
+        <a class="card" href="#academic-resources">
+          <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 5.5C4 4.7 4.7 4 5.5 4H11v16H5.5C4.7 20 4 19.3 4 18.5z"/><path d="M20 5.5c0-.8-.7-1.5-1.5-1.5H13v16h5.5c.8 0 1.5-.7 1.5-1.5z"/></svg></span>
+          <h3>Finding and Using Academic Resources</h3>
+        </a>
+        <a class="card" href="#academic-integrity">
+          <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 4.5-3.2 8-8 9-4.8-1-8-4.5-8-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg></span>
+          <h3>AI and Academic Integrity</h3>
+        </a>
+        <a class="card" href="#verifying-ai-output">
+          <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M20 20l-4.9-4.9"/><path d="M7.8 10.6l2 2 3.4-3.8"/></svg></span>
+          <h3>Verifying and Evaluating AI Output</h3>
+        </a>
+        <a class="card" href="#prompt-for-learning">
+          <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 0 1-11.7 7.1L4 20l1-4.1A8 8 0 1 1 20 12z"/><path d="M9.5 10l-2 2 2 2M14.5 10l2 2-2 2"/></svg></span>
+          <h3>Prompt for Learning</h3>
+        </a>
+      </div>
+    </div>
+  </main>
+</div>
+
+<section id="lesson" aria-label="Prompt for Learning lesson">
+  <div class="topbar">
+    <a href="#">&larr; All modules</a>
+    <span class="crumb">Prompt for Learning &rsaquo; Lesson 1 of 3 (demo)</span>
+    <div class="prog"><span id="meterText">0 of 4 habits</span><div class="meter"><span id="meterFill"></span></div></div>
+    <button class="btn" id="nextBtn" type="button" disabled>Next lesson &rarr;</button>
+  </div>
+  <div class="panes">
+    <section class="lessonpane" aria-label="Lesson space">
+      <span class="tag">Lesson 1</span>
+      <h2>Ask to Understand, Not Just to Answer</h2>
+      <p>How you word a prompt shapes what you learn. A vague request gets a quick answer. A well-built one gets an explanation you can use, and a way to check that you understood it.</p>
+      <h3>Four habits of a learning prompt</h3>
+      <ul>
+        <li><strong>Give context.</strong> Say who you are and where you’re stuck.</li>
+        <li><strong>Ask for an explanation.</strong> Request steps or an example, not only a definition.</li>
+        <li><strong>Ask to be checked.</strong> Invite a practice question or quiz.</li>
+        <li><strong>Set a boundary.</strong> Ask for hints so you still do the thinking.</li>
+      </ul>
+      <h3>Your task</h3>
+      <div class="task">You’re in an intro statistics course and <strong>standard deviation</strong> isn’t clicking. In the chat, write a prompt that helps you <em>learn</em> it, not just copy a definition. Revise and resend until the feedback shows all four habits.</div>
+      <button class="btn ghost" id="hintBtn" type="button">Show a hint</button>
+      <p class="hint" id="hint">Try: “I’m a first-year student new to statistics. Explain standard deviation step by step with a small example, then quiz me with one question. Give me hints instead of the full answer.”</p>
+    </section>
+
+    <section class="chatpane" aria-label="AI practice chat">
+      <div class="chathead">Practice AI <small>simulated demo</small></div>
+      <div class="chat" id="chat" aria-live="polite">
+        <div class="msg ai"><div class="avatar">AI</div><div class="bubble"><p>Hi! I’m a practice assistant. Follow the task on the left and type your prompt below.</p></div></div>
+      </div>
+      <div class="composer">
+        <div class="box">
+          <textarea id="prompt" rows="2" placeholder="Message the practice AI…" aria-label="Your prompt"></textarea>
+          <button class="send" id="sendBtn" type="button" aria-label="Send"><svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+        </div>
+        <div class="note">Responses are simulated. Press Enter to send, Shift+Enter for a new line.</div>
+      </div>
+    </section>
+  </div>
+</section>
+
+<script>
+(function () {
+  var body = document.body;
+  function route() { body.classList.toggle('in-lesson', location.hash === '#prompt-for-learning'); window.scrollTo(0, 0); }
+  window.addEventListener('hashchange', route); route();
+
+  var $ = function (id) { return document.getElementById(id); };
+  var rules = {
+    ctx: /\b(i['’]?m|i am|i['’]?ve|my|student|beginner|first[- ]year|intro|class|course|new to|struggl|stuck)\b/i,
+    exp: /\b(explain|step|example|walk me|break (it )?down|plain|simple|analog)/i,
+    chk: /\b(quiz|check|test me|practice|question|ask me|see if i)/i,
+    bnd: /\b(hint|don['’]?t (just )?(give|tell)|do not (just )?(give|tell)|instead of|without (giving|telling)|let me try)/i
+  };
+  var labels = { ctx: 'Gave context', exp: 'Asked for an explanation', chk: 'Asked to be checked', bnd: 'Set a boundary' };
+  var chat = $('chat'), box = $('prompt'), busy = false;
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  $('hintBtn').onclick = function () { var h = $('hint'); h.classList.toggle('show'); this.textContent = h.classList.contains('show') ? 'Hide hint' : 'Show a hint'; };
+  function esc(s) { return s.replace(/[&<>]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]; }); }
+  function scroll() { chat.scrollTop = chat.scrollHeight; }
+  function add(cls, html) {
+    var m = document.createElement('div'); m.className = 'msg ' + cls;
+    m.innerHTML = (cls === 'ai' ? '<div class="avatar">AI</div>' : '') + '<div class="bubble">' + html + '</div>';
+    chat.appendChild(m); scroll(); return m.querySelector('.bubble');
+  }
+  function wait(ms) { return new Promise(function (r) { setTimeout(r, reduce ? 0 : ms); }); }
+
+  async function send() {
+    var text = box.value.trim();
+    if (!text || busy) return;
+    busy = true; $('sendBtn').disabled = true; box.value = ''; box.style.height = 'auto';
+    add('user', esc(text));
+    var hit = {}, n = 0;
+    Object.keys(rules).forEach(function (k) { hit[k] = rules[k].test(text); if (hit[k]) n++; });
+
+    var b = add('ai', '<span class="typing"><span></span><span></span><span></span></span>');
+    await wait(900);
+    var p = [];
+    p.push(hit.ctx ? 'Thanks for the background. Since you’re building this up from the basics, I’ll keep it simple.' : 'Here’s a general answer, since I don’t know your background.');
+    p.push('<strong>Standard deviation</strong> measures how spread out a set of numbers is around its average.');
+    if (hit.exp) p.push('<strong>Example:</strong> Scores of 70, 75, 80 and scores of 50, 75, 100 both average 75. The second set is more spread out, so its standard deviation is larger.');
+    else p.push('<em>You didn’t ask for steps or an example, so this stays a bare definition.</em>');
+    if (hit.bnd) p.push('<strong>Hint:</strong> Start by finding how far each score is from 75. What do you notice?');
+    if (hit.chk) p.push('<strong>Check yourself:</strong> If every score in a set is identical, what is the standard deviation?');
+    b.innerHTML = '';
+    for (var i = 0; i < p.length; i++) {
+      var el = document.createElement('p'); el.innerHTML = p[i]; b.appendChild(el); scroll(); await wait(450);
+    }
+    var fb = '<div class="fb"><strong>Lesson feedback</strong>' + Object.keys(labels).map(function (k) {
+      return '<div class="' + (hit[k] ? 'ok' : 'miss') + '"><span>' + (hit[k] ? '\u2713' : '!') + '</span><span>' + labels[k] + '</span></div>';
+    }).join('') + (n === 4 ? '<div class="ok"><span></span><span>Nice work: all four habits used.</span></div>' : '<div class="miss"><span></span><span>Revise your prompt to cover the items marked “!” and send it again.</span></div>') + '</div>';
+    b.insertAdjacentHTML('beforeend', fb); scroll();
+
+    $('meterFill').style.width = (n * 25) + '%';
+    $('meterText').textContent = n + ' of 4 habits';
+    if (n === 4) $('nextBtn').disabled = false;
+    busy = false; $('sendBtn').disabled = false; box.focus();
+  }
+  $('sendBtn').onclick = send;
+  box.addEventListener('keydown', function (e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); } });
+  box.addEventListener('input', function () { this.style.height = 'auto'; this.style.height = this.scrollHeight + 'px'; });
+  $('nextBtn').onclick = function () { add('ai', '<p>This is where Lesson 2 would begin. The demo ends here.</p>'); };
+})();
+</script>
+</body>
+</html>
