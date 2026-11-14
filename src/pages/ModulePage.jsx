@@ -1,13 +1,16 @@
-import { Link, useParams } from 'react-router-dom';
+import { Link, Navigate, useParams } from 'react-router-dom';
 import { modules } from '../data/modules.jsx';
 import { lessons } from '../lessons/index.js';
 import Lesson from './Lesson.jsx';
 
 export default function ModulePage() {
-  const { slug } = useParams();
+  const { slug, step } = useParams();
   const mod = modules.find((m) => m.slug === slug);
   const lesson = mod && lessons[mod.lesson];
-  if (lesson) return <Lesson module={mod} lesson={lesson} />;
+
+  if (lesson && !step) return <Navigate to={`/module/${slug}/1`} replace />;
+  if (lesson) return <Lesson module={mod} lesson={lesson} stepNumber={Number(step) || 1} />;
+
   return (
     <main className="soon">
       <span className="eyebrow">Coming soon</span>

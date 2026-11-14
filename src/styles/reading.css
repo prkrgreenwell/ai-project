@@ -1,0 +1,24 @@
+/* Multi-step lesson layout: stepper, reading pages, and the bottom Back/Next bar */
+.stepbody { flex: 1; min-height: 0; display: flex; flex-direction: column; overflow: auto; }
+.stepbody > .panes { flex: 1; }
+
+.stepper { flex: none; display: flex; align-items: center; flex-wrap: wrap; gap: 6px 4px; padding: 10px 20px; background: var(--surface); border-bottom: 1px solid var(--border); }
+.stepwrap { display: inline-flex; align-items: center; }
+.stepgap { width: 18px; height: 2px; background: var(--border); margin: 0 6px; }
+.stepdot { width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--border); background: var(--card); color: var(--text); font: inherit; font-size: .85rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; margin-right: 4px; }
+.stepdot.act { border-radius: 8px; }
+.stepdot.done { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+.stepdot.current { border-color: var(--red); box-shadow: 0 0 0 3px rgba(204,0,0,.25); }
+.stepdot.locked { opacity: .5; cursor: not-allowed; font-size: .75rem; }
+.stepdot:focus-visible { outline: 3px solid var(--red); outline-offset: 2px; }
+
+.reading { width: 100%; max-width: 720px; margin: 0 auto; padding: 40px 24px 32px; color: var(--text); }
+.reading h1 { font-size: clamp(1.7rem, 4vw, 2.3rem); margin: 6px 0 18px; }
+.reading p, .reading li { font-size: 1.1rem; }
+.reading ul { padding-left: 22px; }
+.callout { margin-top: 24px; padding: 16px 18px; border-left: 4px solid var(--red); background: var(--surface); border-radius: 4px; }
+
+.lessonnav { flex: none; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 20px; border-top: 1px solid var(--border); background: var(--card); }
+.lessonnav .btn.ghost { color: var(--text); border-color: var(--border); }
+.lessonnav .toast { color: var(--muted); font-size: .9rem; text-align: center; }
+@media (max-width: 560px) { .lessonnav .toast { display: none; } }
